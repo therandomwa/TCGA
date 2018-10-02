@@ -1,0 +1,60 @@
+# Results from matrix_transform.R
+   
+   ## somatic_count.csv
+      mutation times for each gene in each cancer type
+      
+   ## somatic_binary.csv
+      whether there is mutation(s) for each gene in each cancer type
+      
+   ## count_mutate.csv
+      same as somatic_count excpet hypermutators are excluded
+      
+   ## binary_mutate.csv
+      same as somatic_binary excpet hypermutators are excluded
+
+
+
+# Results from frequency_heatmap.R
+
+  ## type.csv
+     gene mutation for each tumor sample 
+     (rownames are the corresponding tumor type)
+     
+  ## type_h.csv
+     same as type.csv except hypermutators are excluded
+  
+  ## ratio_table.csv
+     mutation frequency rate for each gene and each cancer type
+  
+  
+# Results from binary_heatmap.R
+
+  NA
+
+
+
+# Results from classification.R 
+
+  ## fit_lasso_logit.rds
+     model fit from method 1
+     
+  ## cv.csv
+     actual results vs. prediction results from method 4
+     
+  ## cv_cv.csv
+     actual results vs. prediction results from method 2
+     
+  ## cvresult_v2.rds
+     actual result, prediction results and prediction probability from method 3
+     
+  ## cvresult_v2_2.rds
+     second run for the above method
+     
+  ## cvresult_v2_3.rds
+     third run for the above method
+       
+
+
+# Results from scatter_pie.R
+  
+  NA
