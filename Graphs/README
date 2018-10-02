@@ -1,0 +1,57 @@
+# Results from matrix_transform.R
+   NA
+
+
+
+# Results from frequency_heatmap.R
+
+  ## heat_original.pdf: 
+  proportion table, both genes and cancers are in alphabetical order. 
+  
+  ## heat_cluster.pdf: 
+  same as above except axises are in hierarchical clustering order
+
+  ## heat_original_mutate.pdf: 
+  same as heat_original except the data excludes hypermutator genes
+  
+  ## heat_cluster_mutate.pdf: 
+  same as heat_cluster except the data excludes hypermutator genes
+
+  ## heat_cluster_pathway: 
+  proportion table, cancers are in clustering order, genes only include pathway genes
+  
+  
+  
+# Results from binary_heatmap.R
+
+  ## binary_hm_mutate:
+     binary heatmap recording gene mutation, recorded on patients level
+  
+  ## binary_hm_nomutate: 
+     same as above except after kmeans, tumors that have more than 20 mutations are excluded 
+
+
+
+# Results from classification.R 
+
+  ## heat_coefs.pdf(method #1):
+     beta coeffcients that are extracted from the best lambdas from the lasso model
+  
+  ## multiclass_cv(method 2): 
+     classification results from multiclass classification
+     
+  ## classification_result folder(method #3):
+     (ran cv three times, each result is marked with e.g. (...)_1.png)
+    ## auc: AUC value for each cancer type
+    ## binary_cv: classification results from one vs. rest binary classification
+    ## roc: ROC curve for each cancer type
+    ## ranking: overall prediction accuracy for each cancer type
+       (for this one, the y-axis value = sensitivity + PPV -1)
+       (x-axis ranking is the important information)
+       
+
+
+# Results from scatter_pie.R
+
+  ## scatterpie.png
+     pie chart of hierchical clustering results. x-axis shows the silouette value (within cluster        homogenity), y-axis shows the proportion of the most dominant cancer types, and individual pie      chart size is proportional to their cluster size. Text next to each pie represents the most         dominant cancer name.

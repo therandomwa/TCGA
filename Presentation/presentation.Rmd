@@ -1,0 +1,110 @@
+---
+title: "presentation"
+author: "Aijin Wang"
+date: "7/17/2018"
+output: pdf_document
+---
+# Ratio heatmap
+```{r}
+ratio_table = read.csv("ratio_table.csv", header = TRUE)
+rownames(ratio_table) = ratio_table[,1]
+ratio_table = ratio_table[,-1]
+ratio_table = round(ratio_table,1)
+meltdata = melt(ratio_table, value.name = "Proportion", 
+                varnames = c("Cancer_Type", "Gene"))
+
+gene_heat = function(df){
+  ggplot(data = df,
+         aes(x=Cancer_Type,
+             y=Gene,
+             fill = Proportion)) +
+    geom_tile() + 
+    geom_text(aes(label = Proportion),size = 2) +
+    scale_fill_gradient2(low = "white",
+                         mid = "steelblue",
+                         high="#2f5c33",
+                         midpoint = 50) +
+    theme(axis.text.x  = element_text(angle=90, vjust=0.5, size=8),
+          axis.text.y = element_text(size = 6),
+          axis.ticks.x=element_blank(),
+          axis.ticks.y=element_blank(),
+          axis.title.x = element_blank(),
+          axis.title.y = element_blank(),
+          legend.position = "none") 
+}
+
+dcancer = dist(ratio_table)
+hcancer = hclust(dcancer)
+dgene = dist(t(ratio_table))
+hgene = hclust(dgene)
+
+gene_order = hgene$order[1:29]
+
+cluster_ratio = ratio_table
+cluster_ratio = cluster_ratio[hcancer$order,gene_order]
+melt_cluster = melt(cluster_ratio, value.name = "Proportion", 
+                    varnames = c("Cancer_Type", "Gene"))
+melt_cluster$Cancer_Type = factor(melt_cluster$Cancer_Type, levels = unique(melt_cluster$Cancer_Type))
+melt_cluster$Gene = factor(melt_cluster$Gene, levels = unique(melt_cluster$Gene))
+
+gene_heat(melt_cluster)
+```
+
+
+
+# Binary heatmap
+```{r}
+setwd("~/TCGA/Data/New")
+set.seed(11)
+library(pheatmap)
+
+### create annotation table
+type = read.csv("type_h.csv")
+type = type[,-1]
+type = as.matrix(type)
+type = t(type)
+
+## exclude hypermutators
+counts = type[2:nrow(type),]
+class(counts) = "numeric"
+sums = colSums(counts)
+clusters = kmeans(sums,2)$cluster
+table(clusters)
+type = type[,clusters == 2]
+cancer = type[1,]
+colnames(type) = paste("Patient",1:ncol(type), sep = "")
+
+categories = data.frame(cancer_type = cancer)
+rownames(categories) = colnames(type)
+type = type[-1,]
+class(type) = "numeric"
+dim(type)
+
+#heatmap
+
+gene_names = hgene$labels[gene_order]
+gene_col = which(rownames(type) %in% gene_names)
+type = type[gene_col,]
+dim(type)
+
+set.seed(11)
+color = grDevices::colors()[grep('gr(a|e)y', grDevices::colors(), invert = T)]
+my_color = sample(color,33)
+names(my_color) = levels(categories$cancer_type)
+cancer_col = list(cancer_type = my_color)
+
+pheatmap(type, 
+         color = c("white","black"),
+         annotation = categories,
+         annotation_colors = cancer_col,
+         cellwidth = 0.05,
+         cellheight = 8,
+         treeheight_row = 0,
+         treeheight_col = 0,
+         legend = F,
+         clustering_distance_rows = "binary",
+         clustering_distance_cols = "binary",
+         show_colnames = F,
+         fontsize = 6)
+```
+

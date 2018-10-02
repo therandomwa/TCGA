@@ -1,0 +1,40 @@
+Aijin Wang
+This file is for documentaion purpose, inculding the daily progress.
+-----
+6/4-6/8:
+Tasks:
+- Read paper with background information, load data into R.
+
+Files: 
+- genes.RData: original TCGA data
+- gene_list: specify which gene is somatic/germline
+- v1.RData: with processed and cleaned dataset from TCGA, associated with somatic_matrix.R
+-----
+6/11:
+Files:
+- somatic_count.csv: matrix(row: patient ID, col: somatic gene type) of mutation count
+- somatic_binary.csv: similar as above, matrix of whether the gene mutates
+- somatix_matrix.R: clean and subset the data from TCGA to create a matrix stated above
+-----
+6/12:
+Files:
+- sampleID: specify which patient code is corresponding to which tumor type
+-----
+6/13:
+Tasks: 
+- Map patient code with corresponding cancer type. 
+- calculate the proportion matrix(see description of correlation.R)
+
+Files:
+- correlation.R: create the proportion matrix of how much percent does the gene mutate in one cancer
+- type.csv: modified version of somatic_binary.csv. matrix(row:corresponding cancer type to patient ID, col: somatic gene type)
+-----
+6/14:
+Tasks:
+- Create heatmap from ratio matrix
+Files:
+- ratio_table.csv: matrix of ratio of mutated gene in each cancer type
+-----
+6/15:
+- heat_original: heatmap of ratio_table by alphabetical order
+- heat_cluster: heatmap of ratio_table by hierarchical clustering order
